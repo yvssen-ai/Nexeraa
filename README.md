@@ -1,0 +1,180 @@
+# NEXERA
+
+Marketing site for NEXERA — a digital agency working across web development,
+e-commerce, AI automation, marketing and branding.
+
+Built as a single scroll-driven page: Next.js 15 (App Router) + React 19 +
+Tailwind CSS v4 + GSAP 3 (ScrollTrigger, ScrollSmoother, SplitText, DrawSVG).
+
+---
+
+## Running it
+
+```bash
+npm install
+npm run dev          # http://localhost:3000
+npm run build && npm start
+```
+
+| Script             | What it does                                              |
+| ------------------ | --------------------------------------------------------- |
+| `npm run dev`      | Dev server                                                  |
+| `npm run build`    | Production build                                            |
+| `npm start`        | Serve the production build                                  |
+| `npm run typecheck`| `tsc --noEmit`                                              |
+| `npm run format`   | Prettier (with Tailwind class sorting)                      |
+| `npm run audit`    | Headless behaviour suite — see [Verification](#verification)|
+| `npm run perf`     | Frame-time and Web Vitals measurement                       |
+
+Deploys as-is to Vercel, or anywhere that runs a Next.js Node server.
+
+---
+
+## Design system
+
+Both palettes and the typography were taken from the brand assets in
+[`brand/`](brand/) and are defined once, as Tailwind v4 theme tokens, in
+[`src/app/globals.css`](src/app/globals.css).
+
+| Token                          | Value     | Where it came from                |
+| ------------------------------ | --------- | --------------------------------- |
+| `--color-void` / `--color-black-2` | `#06070a` / `#0a0a0b` | design-system board, "Secondary" |
+| `--color-navy`                 | `#0e151d` | brand board background            |
+| `--color-surface-3`            | `#1f1f22` | design-system board, "Tertiary"   |
+| `--color-ink`                  | `#f5f5f7` | design-system board, "Neutral"    |
+| `--color-blue`                 | `#4e7de8` | the logo's chevron / arrow        |
+| `--color-violet`               | `#8b5cf6` | design-system board, "Primary"    |
+
+The five services sit on a blue→violet ramp (`#4E7DE8 → #6478EE → #7B6BF4 →
+#8B5CF6 → #A855F7`) so each discipline has its own accent without leaving the
+brand.
+
+Type is **Geist** (display), **Inter** (body) and **JetBrains Mono** (labels),
+matching the design-system board, loaded through `next/font` and self-hosted.
+
+### The logo
+
+The wordmark and monogram are **vector geometry, not a font or an image** —
+[`src/components/brand/Logo.tsx`](src/components/brand/Logo.tsx). Each letter,
+the blue chevron bracket and the shard in the X are separate paths, so the
+intro can wipe letters individually and draw the chevron. The monogram reuses
+the wordmark's own X glyph with its upper-right arm lifted out into the arrow.
+
+---
+
+## Content
+
+All copy, services, process steps, projects, stats and testimonials live in
+[`src/lib/content.ts`](src/lib/content.ts). Nothing else needs editing to
+change what the site says.
+
+> **The projects, stats and testimonials are placeholders.** Swap them for real
+> ones before launch.
+
+### Contact form
+
+With no configuration the form validates client-side and hands off to the
+visitor's mail client. To send enquiries to a real inbox, set a form endpoint
+(Formspree, Basin, a Next route handler — anything that accepts a `POST` of
+`FormData`):
+
+```bash
+# .env.local
+NEXT_PUBLIC_FORM_ENDPOINT=https://formspree.io/f/xxxxxxx
+```
+
+Change the address the mail fallback uses via `CONTACT_EMAIL` in
+`src/lib/content.ts`.
+
+---
+
+## How the motion works
+
+Everything scroll-driven goes through GSAP. A few decisions worth knowing
+before editing:
+
+**ScrollSmoother owns the scroll on pointer devices, and hands it straight
+back on touch.** It is created with `smoothTouch: 0`, so phones scroll
+natively — no interpolation, no added latency. Smoothed touch scrolling is the
+single biggest source of "laggy" feel on mobile.
+
+**Anything `position: fixed` must live outside `<SmoothScroll>`.** The smoother
+transforms its content wrapper, and a transformed ancestor makes `fixed`
+resolve against that wrapper instead of the viewport. The nav, cursor, scroll
+progress bar and preloader are all rendered as siblings of it in
+[`src/app/page.tsx`](src/app/page.tsx).
+
+**`position: sticky` does not work while the smoother is active** — for the
+same reason, the wrapper is `overflow: hidden; position: fixed` and never
+actually scrolls. The stacking service cards and the pinned process heading
+use `ScrollTrigger` pins instead, which behave identically in both scroll
+modes. Reach for a pin, not `sticky`.
+
+**Entrance animations start from a CSS pre-state behind `html.nx-js`.** An
+inline script in the document head sets that class before first paint. If
+JavaScript never runs, or motion is reduced, the class is absent and every
+`[data-anim]` element renders fully visible — content is never trapped
+invisible.
+
+**`prefers-reduced-motion` is honoured throughout.** Every animation lives
+inside a `gsap.matchMedia("(prefers-reduced-motion: no-preference)")` block,
+the smoother is not created at all, and the preloader is skipped.
+
+**`ScrollTrigger.refresh()` is expensive and is called exactly once**, on the
+frame after web fonts settle (`SmoothScroll.tsx`). A refresh reverts and
+re-measures every pin; firing it from several places used to stack into a
+one-second blocking task on a throttled phone. Don't add more.
+
+**`ignoreMobileResize: true`** stops the mobile URL bar showing/hiding from
+counting as a viewport resize. Without it, every such change forces a full
+refresh mid-scroll, which is what makes pinned sections stutter on phones.
+
+---
+
+## Verification
+
+Two headless suites run against a production build. Start the server first:
+
+```bash
+npm run build && npm start &
+npm run audit      # 22 behaviour / accessibility checks
+npm run perf       # frame times + Web Vitals, incl. CPU-throttled phones
+```
+
+`npm run audit` covers the mobile drawer (touch target size, `aria-expanded`,
+scroll lock, Escape, anchor offset), reduced-motion, a JavaScript-disabled
+render, form validation and focus management, and keyboard entry.
+
+Both scripts read `NEXERA_URL` (default `http://localhost:3000/`) and
+`CHROMIUM_PATH` if you need to point at a specific browser.
+
+Measured on this build — desktop 1440px, and phones with 4×/6× CPU throttling:
+
+| | LCP | CLS | scroll p50 | scroll p95 | frames > 50 ms |
+| --- | --- | --- | --- | --- | --- |
+| Desktop 1440 | 248 ms | 0 | 16.7 ms | 19.1 ms | 0 / 418 |
+| Phone, 4× CPU throttle | 320 ms | 0 | 16.7 ms | 21.5 ms | 1 / 418 |
+| Phone, 6× CPU throttle | 292 ms | 0 | 17.8 ms | 33.5 ms | 1 / 417 |
+
+A 16.7 ms median frame is a locked 60 fps, and it holds on a phone emulated
+at 6× slower than this machine. The remaining cost is load-time work — React
+hydration plus GSAP setup — not scrolling.
+
+---
+
+## Layout
+
+```
+src/
+  app/            layout, page composition, design tokens + global CSS
+  components/
+    brand/        Wordmark + Monogram vector marks
+    sections/     Hero, Ticker, Manifesto, Services, Process,
+                  Work, Testimonials, Contact, Footer
+    ui/           Button, Magnetic, Marquee, icons
+    *.tsx         Preloader, Nav, Cursor, ScrollProgress,
+                  SmoothScroll, AnchorScroll, Reveals, SignalField
+  lib/            gsap registration, content, device tiers, ready signal
+brand/            the source brand board + design-system board
+scripts/          audit.mjs, perf.mjs
+```
