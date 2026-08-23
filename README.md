@@ -30,6 +30,25 @@ Deploys as-is to Vercel, or anywhere that runs a Next.js Node server.
 
 ---
 
+## Deploying
+
+`vercel.json` pins the framework:
+
+```json
+{ "framework": "nextjs", "buildCommand": "next build", "installCommand": "npm ci" }
+```
+
+That is deliberate, not boilerplate. This Vercel project was created while the
+repo still held nothing but the two brand images, so it was saved with no
+framework — a plain static site that publishes the repo root and runs no build.
+It reported *success* on every push (there was nothing to fail) and served a
+`404: NOT_FOUND`, because there is no `index.html` at the root. Settings in
+`vercel.json` override the dashboard, so this forces a real Next.js build
+regardless of how the project was first detected.
+
+Set `NEXT_PUBLIC_FORM_ENDPOINT` under Settings → Environment Variables to point
+the contact form at a real inbox.
+
 ## Design system
 
 Both palettes and the typography were taken from the brand assets in
