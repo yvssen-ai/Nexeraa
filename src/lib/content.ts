@@ -122,48 +122,77 @@ export const PROCESS = [
   },
 ];
 
-export const WORK = [
+export type Project = {
+  id: string;
+  name: string;
+  kind: string;
+  /** What the project actually is. Always true, always shown. */
+  summary: string;
+  /** The stack it was really built on. */
+  stack: string;
+  year: string;
+  /**
+   * A measured outcome, once there is one to quote — "+38% checkout
+   * completion", "0.9s LCP". Rendered in the project's accent colour above
+   * the summary. Left off until the number is real.
+   */
+  result?: string;
+  repo: string;
+  /** Live URL. The card links here in preference to the repo when set. */
+  href?: string;
+};
+
+export const WORK: Project[] = [
   {
-    id: "w1",
-    name: "Halo Commerce",
+    id: "sushirito",
+    name: "Sushirito",
+    kind: "Restaurant · Web",
+    summary:
+      "Japanese × Mexican fusion brand as a scroll-driven one-pager — no framework, no build step, GSAP and the webfonts vendored so it renders identically offline.",
+    stack: "Vanilla JS · GSAP · ScrollTrigger",
+    year: "2026",
+    repo: "https://github.com/yvssen-ai/sushirito",
+  },
+  {
+    id: "gorilla",
+    name: "Gorilla Pizza",
+    kind: "Restaurant · Interactive",
+    summary:
+      "Marketing site built around a six-step pizza builder — size to toppings, with a live animated preview and a running price total.",
+    stack: "React · Vite · GSAP",
+    year: "2026",
+    repo: "https://github.com/yvssen-ai/Gorilla",
+  },
+  {
+    id: "solis",
+    name: "Solis",
+    kind: "Café & Bakery · Web",
+    summary:
+      "Animation-led brand site on a Supabase back end: live menu, cart and guest ordering, with order history readable without an account.",
+    stack: "React · Vite · GSAP · Supabase",
+    year: "2026",
+    repo: "https://github.com/yvssen-ai/Solis",
+  },
+  {
+    id: "sooki",
+    name: "Sooki",
     kind: "E-Commerce",
-    result: "+38% conversion rate",
-    year: "2025",
+    summary:
+      "Cinematic black-and-gold storefront for a luxury Egyptian accessories label. Custom cursor, magnetic buttons, mobile-first throughout.",
+    stack: "Next.js · Tailwind · Framer Motion",
+    year: "2026",
+    repo: "https://github.com/yvssen-ai/Sooki",
   },
   {
-    id: "w2",
-    name: "Northwind AI",
-    kind: "AI Automation",
-    result: "9,400 hours saved / yr",
-    year: "2025",
-  },
-  {
-    id: "w3",
-    name: "Studio Marrow",
-    kind: "Branding",
-    result: "Full identity system",
-    year: "2024",
-  },
-  {
-    id: "w4",
-    name: "Beacon Health",
-    kind: "Web Development",
-    result: "0.9s LCP on mobile",
-    year: "2025",
-  },
-  {
-    id: "w5",
-    name: "Ferro Athletics",
-    kind: "Marketing",
-    result: "4.2x return on ad spend",
-    year: "2024",
-  },
-  {
-    id: "w6",
-    name: "Corvid Finance",
-    kind: "Web + Brand",
-    result: "2.6x demo requests",
-    year: "2025",
+    id: "lane9",
+    name: "LANE9",
+    kind: "Entertainment · Web",
+    summary:
+      "One page for a venue running bowling, arcade, mini golf, billiards and PlayStation rooms. Fonts self-hosted, photography lazy-loaded.",
+    stack: "Static · GSAP · SplitText",
+    year: "2026",
+    result: "≈330 KB first load",
+    repo: "https://github.com/yvssen-ai/lane9",
   },
 ];
 
@@ -172,45 +201,6 @@ export const STATS = [
   { value: 38, suffix: "%", label: "Average conversion lift" },
   { value: 14, suffix: "", label: "Countries served" },
   { value: 24, suffix: "h", label: "Response time" },
-];
-
-export const TESTIMONIALS = [
-  {
-    quote:
-      "They rebuilt our storefront in six weeks and the checkout numbers moved in the first month. No theatre, just work that showed up in the dashboard.",
-    name: "Amara Osei",
-    role: "Head of Growth, Halo Commerce",
-  },
-  {
-    quote:
-      "The automation work paid for itself before the invoice cleared. Our support queue is a third of what it was and nothing feels robotic to customers.",
-    name: "Daniel Reyes",
-    role: "COO, Northwind",
-  },
-  {
-    quote:
-      "Best brand process I've been through. They asked harder questions than our board did and the identity has held up across every channel since.",
-    name: "Lena Fischer",
-    role: "Founder, Studio Marrow",
-  },
-  {
-    quote:
-      "Our site went from embarrassing to the fastest in the category. Mobile load time dropped below a second and organic traffic followed.",
-    name: "Priya Raghavan",
-    role: "CMO, Beacon Health",
-  },
-  {
-    quote:
-      "We came for a landing page and stayed for the whole stack. Two years in they still ship faster than our in-house team.",
-    name: "Tomas Nowak",
-    role: "VP Product, Corvid Finance",
-  },
-  {
-    quote:
-      "Four point two times return on ad spend, and the reporting finally makes sense to people outside marketing.",
-    name: "Sofia Marchetti",
-    role: "Director, Ferro Athletics",
-  },
 ];
 
 export const NAV_LINKS = [

@@ -12,7 +12,6 @@ import Manifesto from "@/components/sections/Manifesto";
 import Services from "@/components/sections/Services";
 import Process from "@/components/sections/Process";
 import Work from "@/components/sections/Work";
-import Testimonials from "@/components/sections/Testimonials";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 
@@ -56,7 +55,6 @@ export default function Page() {
           <Services />
           <Process />
           <Work />
-          <Testimonials />
           <Contact />
           <Footer />
         </main>

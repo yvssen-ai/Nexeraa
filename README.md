@@ -83,12 +83,18 @@ the wordmark's own X glyph with its upper-right arm lifted out into the arrow.
 
 ## Content
 
-All copy, services, process steps, projects, stats and testimonials live in
+All copy, services, process steps, projects and stats live in
 [`src/lib/content.ts`](src/lib/content.ts). Nothing else needs editing to
 change what the site says.
 
-> **The projects, stats and testimonials are placeholders.** Swap them for real
-> ones before launch.
+The five projects in the work grid are real — Sushirito, Gorilla Pizza, Solis,
+Sooki and LANE9 — described from their own repos and READMEs. Each entry has an
+optional `result` field for a measured outcome; it renders in the project's
+accent colour above the summary, and is left off wherever there is no real
+number to quote yet. Set `href` on a project and its card links to the live
+site instead of the repo.
+
+> **The stats row is still placeholder numbers.** Swap those before launch.
 
 ### Contact form
 
@@ -160,7 +166,7 @@ npm run audit      # 22 behaviour / accessibility checks
 npm run perf       # frame times + Web Vitals, incl. CPU-throttled phones
 ```
 
-`npm run audit` covers the mobile drawer (touch target size, `aria-expanded`,
+`npm run audit` runs 22 checks covering the mobile drawer (touch target size, `aria-expanded`,
 scroll lock, Escape, anchor offset), reduced-motion, a JavaScript-disabled
 render, form validation and focus management, and keyboard entry.
 
@@ -171,9 +177,9 @@ Measured on this build — desktop 1440px, and phones with 4×/6× CPU throttlin
 
 | | LCP | CLS | scroll p50 | scroll p95 | frames > 50 ms |
 | --- | --- | --- | --- | --- | --- |
-| Desktop 1440 | 248 ms | 0 | 16.7 ms | 19.1 ms | 0 / 418 |
-| Phone, 4× CPU throttle | 320 ms | 0 | 16.7 ms | 21.5 ms | 1 / 418 |
-| Phone, 6× CPU throttle | 292 ms | 0 | 17.8 ms | 33.5 ms | 1 / 417 |
+| Desktop 1440 | 284 ms | 0 | 16.7 ms | 19.6 ms | 0 / 417 |
+| Phone, 4× CPU throttle | 364 ms | 0 | 16.7 ms | 22.6 ms | 0 / 418 |
+| Phone, 6× CPU throttle | 708 ms | 0 | 17.7 ms | 33.9 ms | 0 / 418 |
 
 A 16.7 ms median frame is a locked 60 fps, and it holds on a phone emulated
 at 6× slower than this machine. The remaining cost is load-time work — React
@@ -189,7 +195,7 @@ src/
   components/
     brand/        Wordmark + Monogram vector marks
     sections/     Hero, Ticker, Manifesto, Services, Process,
-                  Work, Testimonials, Contact, Footer
+                  Work, Contact, Footer
     ui/           Button, Magnetic, Marquee, icons
     *.tsx         Preloader, Nav, Cursor, ScrollProgress,
                   SmoothScroll, AnchorScroll, Reveals, SignalField

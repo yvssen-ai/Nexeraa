@@ -118,7 +118,7 @@ export default function Contact() {
       <div className="container-nx grid gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-20">
         <div>
           <p className="eyebrow" data-anim="fade-up">
-            [ 06 ] — Start here
+            [ 05 ] — Start here
           </p>
           <h2 className="nx-contact-head font-display mt-5 text-[clamp(2.25rem,8.5vw,4.75rem)] leading-[1.02] font-semibold tracking-tight">
             Tell us what you&rsquo;re building.
