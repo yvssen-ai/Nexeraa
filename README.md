@@ -88,11 +88,23 @@ All copy, services, process steps, projects and stats live in
 change what the site says.
 
 The five projects in the work grid are real — Sushirito, Gorilla Pizza, Solis,
-Sooki and LANE9 — described from their own repos and READMEs. Each entry has an
+Sooki and LANE9 — described from their own repos and READMEs, linked to their
+live sites, and illustrated with a screenshot of each. Every entry has an
 optional `result` field for a measured outcome; it renders in the project's
 accent colour above the summary, and is left off wherever there is no real
-number to quote yet. Set `href` on a project and its card links to the live
-site instead of the repo.
+number to quote yet.
+
+### Project thumbnails
+
+`public/work/*.webp`, 960×600 (16:10), ~18–33 KB each, 123 KB for all five.
+They are real screenshots, not mockups: each project was cloned, built and
+served locally, then captured at a 1280×800 viewport once its intro animation
+had settled. To refresh one, rebuild that project, serve it, and screenshot it
+at 1280×800; then resize to 960×600 and save as WebP at quality 72.
+
+The `<img>` carries explicit `width`/`height` and `loading="lazy"`, so the
+grid reserves its space before the file arrives — the thumbnails cost nothing
+in layout shift (CLS stays 0) and nothing at first paint.
 
 > **The stats row is still placeholder numbers.** Swap those before launch.
 
@@ -177,9 +189,9 @@ Measured on this build — desktop 1440px, and phones with 4×/6× CPU throttlin
 
 | | LCP | CLS | scroll p50 | scroll p95 | frames > 50 ms |
 | --- | --- | --- | --- | --- | --- |
-| Desktop 1440 | 284 ms | 0 | 16.7 ms | 19.6 ms | 0 / 417 |
-| Phone, 4× CPU throttle | 364 ms | 0 | 16.7 ms | 22.6 ms | 0 / 418 |
-| Phone, 6× CPU throttle | 708 ms | 0 | 17.7 ms | 33.9 ms | 0 / 418 |
+| Desktop 1440 | 244 ms | 0 | 16.7 ms | 18.3 ms | 0 / 418 |
+| Phone, 4× CPU throttle | 416 ms | 0 | 16.8 ms | 21.6 ms | 0 / 417 |
+| Phone, 6× CPU throttle | 400 ms | 0 | 19.3 ms | 34.4 ms | 1 / 417 |
 
 A 16.7 ms median frame is a locked 60 fps, and it holds on a phone emulated
 at 6× slower than this machine. The remaining cost is load-time work — React

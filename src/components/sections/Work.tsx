@@ -89,63 +89,78 @@ export default function Work() {
 
         <ul className="mt-12 grid gap-4 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
           {WORK.map((w, i) => {
-            const live = Boolean(w.href);
             const accent = HUES[i % HUES.length];
             return (
               <li key={w.id} data-anim="fade-up" className="[perspective:1200px]">
                 <a
-                  href={w.href ?? w.repo}
+                  href={w.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  data-cursor={live ? "Visit site" : "View code"}
-                  className="nx-work-card group border-line bg-surface hover:border-line-2 relative flex h-full min-h-[15rem] flex-col justify-between overflow-hidden rounded-2xl border p-6 transition-colors duration-500 [transform-style:preserve-3d] sm:min-h-[17rem] sm:p-7"
+                  data-cursor="Visit site"
+                  className="nx-work-card group border-line bg-surface hover:border-line-2 relative flex h-full flex-col overflow-hidden rounded-2xl border transition-colors duration-500 [transform-style:preserve-3d]"
                 >
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                    style={{
-                      background: `radial-gradient(110% 70% at 50% 0%, ${accent}26, transparent 62%)`,
-                    }}
-                  />
-
-                  <div className="relative flex items-start justify-between gap-4">
-                    <p className="text-ink-mute font-mono text-[0.625rem] tracking-[0.18em] uppercase">
-                      {w.kind}
-                    </p>
-                    <p className="text-ink-faint font-mono text-[0.625rem] tracking-[0.18em]">
-                      {w.year}
-                    </p>
-                  </div>
-
-                  <div className="relative mt-6">
-                    <h3 className="font-display text-2xl font-semibold tracking-tight sm:text-[1.75rem]">
-                      {w.name}
-                    </h3>
-                    {w.result && (
-                      <p className="mt-1.5 text-sm font-medium" style={{ color: accent }}>
-                        {w.result}
-                      </p>
-                    )}
-                    <p className="text-ink-dim mt-2.5 text-[0.8125rem] leading-relaxed">
-                      {w.summary}
-                    </p>
-                  </div>
-
-                  <div className="border-line relative mt-6 flex items-center justify-between gap-4 border-t pt-5">
-                    <p className="text-ink-faint font-mono text-[0.625rem] tracking-[0.1em] uppercase">
-                      {w.stack}
-                    </p>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden">
+                    <img
+                      src={w.thumb}
+                      alt=""
+                      width={960}
+                      height={600}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover object-top transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                    />
+                    {/* melt the shot into the card rather than ending on a hard edge */}
                     <span
                       aria-hidden
-                      className="border-line text-ink-dim group-hover:bg-ink group-hover:text-void inline-flex size-9 shrink-0 items-center justify-center rounded-full border transition-all duration-500 group-hover:border-transparent"
-                    >
-                      <ArrowUpRight className="size-4" />
-                    </span>
-                    <span className="sr-only">
-                      {live
-                        ? `Visit the ${w.name} site`
-                        : `View the ${w.name} source on GitHub`}
-                    </span>
+                      className="from-surface absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t to-transparent"
+                    />
+                  </div>
+
+                  <div className="relative flex flex-1 flex-col p-6 sm:p-7">
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                      style={{
+                        background: `radial-gradient(120% 80% at 50% 0%, ${accent}22, transparent 66%)`,
+                      }}
+                    />
+
+                    <div className="relative flex items-start justify-between gap-4">
+                      <p className="text-ink-mute font-mono text-[0.625rem] tracking-[0.18em] uppercase">
+                        {w.kind}
+                      </p>
+                      <p className="text-ink-faint font-mono text-[0.625rem] tracking-[0.18em]">
+                        {w.year}
+                      </p>
+                    </div>
+
+                    <div className="relative mt-4">
+                      <h3 className="font-display text-2xl font-semibold tracking-tight sm:text-[1.75rem]">
+                        {w.name}
+                      </h3>
+                      {w.result && (
+                        <p className="mt-1.5 text-sm font-medium" style={{ color: accent }}>
+                          {w.result}
+                        </p>
+                      )}
+                      <p className="text-ink-dim mt-2.5 text-[0.8125rem] leading-relaxed">
+                        {w.summary}
+                      </p>
+                    </div>
+
+                    <div className="border-line relative mt-auto flex items-center justify-between gap-4 border-t pt-5">
+                      <p className="text-ink-faint font-mono text-[0.625rem] tracking-[0.1em] uppercase">
+                        {w.stack}
+                      </p>
+                      <span
+                        aria-hidden
+                        className="border-line text-ink-dim group-hover:bg-ink group-hover:text-void inline-flex size-9 shrink-0 items-center justify-center rounded-full border transition-all duration-500 group-hover:border-transparent"
+                      >
+                        <ArrowUpRight className="size-4" />
+                      </span>
+                    </div>
+
+                    <span className="sr-only">Visit the {w.name} site</span>
                   </div>
                 </a>
               </li>

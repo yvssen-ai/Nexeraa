@@ -137,9 +137,12 @@ export type Project = {
    * the summary. Left off until the number is real.
    */
   result?: string;
+  /** Live site — where the card links. */
+  href: string;
+  /** Source, kept as provenance for the copy above. */
   repo: string;
-  /** Live URL. The card links here in preference to the repo when set. */
-  href?: string;
+  /** 960×600 (16:10) WebP in /public/work. */
+  thumb: string;
 };
 
 export const WORK: Project[] = [
@@ -151,7 +154,9 @@ export const WORK: Project[] = [
       "Japanese × Mexican fusion brand as a scroll-driven one-pager — no framework, no build step, GSAP and the webfonts vendored so it renders identically offline.",
     stack: "Vanilla JS · GSAP · ScrollTrigger",
     year: "2026",
+    href: "https://sushirito.vercel.app",
     repo: "https://github.com/yvssen-ai/sushirito",
+    thumb: "/work/sushirito.webp",
   },
   {
     id: "gorilla",
@@ -161,7 +166,9 @@ export const WORK: Project[] = [
       "Marketing site built around a six-step pizza builder — size to toppings, with a live animated preview and a running price total.",
     stack: "React · Vite · GSAP",
     year: "2026",
+    href: "https://gorilla.vercel.app",
     repo: "https://github.com/yvssen-ai/Gorilla",
+    thumb: "/work/gorilla.webp",
   },
   {
     id: "solis",
@@ -171,7 +178,9 @@ export const WORK: Project[] = [
       "Animation-led brand site on a Supabase back end: live menu, cart and guest ordering, with order history readable without an account.",
     stack: "React · Vite · GSAP · Supabase",
     year: "2026",
+    href: "https://solis.vercel.app",
     repo: "https://github.com/yvssen-ai/Solis",
+    thumb: "/work/solis.webp",
   },
   {
     id: "sooki",
@@ -181,7 +190,9 @@ export const WORK: Project[] = [
       "Cinematic black-and-gold storefront for a luxury Egyptian accessories label. Custom cursor, magnetic buttons, mobile-first throughout.",
     stack: "Next.js · Tailwind · Framer Motion",
     year: "2026",
+    href: "https://sooki.vercel.app",
     repo: "https://github.com/yvssen-ai/Sooki",
+    thumb: "/work/sooki.webp",
   },
   {
     id: "lane9",
@@ -192,7 +203,9 @@ export const WORK: Project[] = [
     stack: "Static · GSAP · SplitText",
     year: "2026",
     result: "≈330 KB first load",
+    href: "https://lane9.vercel.app",
     repo: "https://github.com/yvssen-ai/lane9",
+    thumb: "/work/lane9.webp",
   },
 ];
 
