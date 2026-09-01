@@ -89,7 +89,13 @@ change what the site says.
 
 The five projects in the work grid are real — Sushirito, Gorilla Pizza, Solis,
 Sooki and LANE9 — described from their own repos and READMEs, linked to their
-live sites, and illustrated with a screenshot of each. Every entry has an
+live sites, and illustrated with a screenshot of each.
+
+> `href` holds the URL Vercel recorded for each project's latest successful
+> Production deployment. **Never shorten one to `<name>.vercel.app`.** That
+> bare form is a globally unique alias and for all five of these it belongs to
+> an unrelated project, so the card sends visitors to a stranger's site. Only
+> ever paste a URL you have opened yourself. Every entry has an
 optional `result` field for a measured outcome — it renders in the project's
 accent colour above the summary. No project sets one today: the field is the
 slot for a real, verifiable number, and stays empty until there is one.

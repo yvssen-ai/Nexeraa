@@ -137,7 +137,16 @@ export type Project = {
    * the summary. Left off until the number is real.
    */
   result?: string;
-  /** Live site — where the card links. */
+  /**
+   * Live site — where the card links.
+   *
+   * These are the URLs Vercel recorded for each project's latest successful
+   * Production deployment, under the `yassen` scope. Do NOT shorten them to
+   * `<name>.vercel.app`: that bare form is a globally unique alias, and for
+   * every one of these it belongs to somebody else's project — the card then
+   * sends visitors to a stranger's site. Replace only with a URL you have
+   * actually opened.
+   */
   href: string;
   /** Source, kept as provenance for the copy above. */
   repo: string;
@@ -154,7 +163,7 @@ export const WORK: Project[] = [
       "Japanese × Mexican fusion brand as a scroll-driven one-pager — no framework, no build step, GSAP and the webfonts vendored so it renders identically offline.",
     stack: "Vanilla JS · GSAP · ScrollTrigger",
     year: "2026",
-    href: "https://sushirito.vercel.app",
+    href: "https://sushirito-kkb0fi6m1-yassen.vercel.app",
     repo: "https://github.com/yvssen-ai/sushirito",
     thumb: "/work/sushirito.webp",
   },
@@ -166,7 +175,7 @@ export const WORK: Project[] = [
       "Marketing site built around a six-step pizza builder — size to toppings, with a live animated preview and a running price total.",
     stack: "React · Vite · GSAP",
     year: "2026",
-    href: "https://gorilla.vercel.app",
+    href: "https://gorilla-bpakair0h-yassen.vercel.app",
     repo: "https://github.com/yvssen-ai/Gorilla",
     thumb: "/work/gorilla.webp",
   },
@@ -178,7 +187,7 @@ export const WORK: Project[] = [
       "Animation-led brand site on a Supabase back end: live menu, cart and guest ordering, with order history readable without an account.",
     stack: "React · Vite · GSAP · Supabase",
     year: "2026",
-    href: "https://solis.vercel.app",
+    href: "https://solis-jfyk5jsvb-yassen.vercel.app",
     repo: "https://github.com/yvssen-ai/Solis",
     thumb: "/work/solis.webp",
   },
@@ -190,7 +199,7 @@ export const WORK: Project[] = [
       "Cinematic black-and-gold storefront for a luxury Egyptian accessories label. Custom cursor, magnetic buttons, mobile-first throughout.",
     stack: "Next.js · Tailwind · Framer Motion",
     year: "2026",
-    href: "https://sooki.vercel.app",
+    href: "https://sooki-7akny5npw-yassen.vercel.app",
     repo: "https://github.com/yvssen-ai/Sooki",
     thumb: "/work/sooki.webp",
   },
@@ -202,7 +211,7 @@ export const WORK: Project[] = [
       "One page for a venue running bowling, arcade, mini golf, billiards and PlayStation rooms. Fonts self-hosted, photography lazy-loaded.",
     stack: "Static · GSAP · SplitText",
     year: "2026",
-    href: "https://lane9.vercel.app",
+    href: "https://lane9-n8anbyh8v-yassen.vercel.app",
     repo: "https://github.com/yvssen-ai/lane9",
     thumb: "/work/lane9.webp",
   },
