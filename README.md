@@ -90,9 +90,9 @@ change what the site says.
 The five projects in the work grid are real — Sushirito, Gorilla Pizza, Solis,
 Sooki and LANE9 — described from their own repos and READMEs, linked to their
 live sites, and illustrated with a screenshot of each. Every entry has an
-optional `result` field for a measured outcome; it renders in the project's
-accent colour above the summary, and is left off wherever there is no real
-number to quote yet.
+optional `result` field for a measured outcome — it renders in the project's
+accent colour above the summary. No project sets one today: the field is the
+slot for a real, verifiable number, and stays empty until there is one.
 
 ### Project thumbnails
 

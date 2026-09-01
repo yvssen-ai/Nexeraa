@@ -202,7 +202,6 @@ export const WORK: Project[] = [
       "One page for a venue running bowling, arcade, mini golf, billiards and PlayStation rooms. Fonts self-hosted, photography lazy-loaded.",
     stack: "Static · GSAP · SplitText",
     year: "2026",
-    result: "≈330 KB first load",
     href: "https://lane9.vercel.app",
     repo: "https://github.com/yvssen-ai/lane9",
     thumb: "/work/lane9.webp",
