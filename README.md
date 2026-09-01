@@ -163,6 +163,15 @@ invisible.
 inside a `gsap.matchMedia("(prefers-reduced-motion: no-preference)")` block,
 the smoother is not created at all, and the preloader is skipped.
 
+**`metadataBase` must be the host the site is actually served from.** Link
+previews resolve `og:image` against it, so a placeholder domain means the
+image 404s and Instagram, WhatsApp and the rest fall back to scraping the
+first image in the page — which made a project thumbnail the preview. It is
+derived from Vercel's `VERCEL_PROJECT_PRODUCTION_URL` at build time, with
+`NEXT_PUBLIC_SITE_URL` as the override for a custom domain. The card itself
+is `public/og.jpg` (1200x630, ~66 KB), rendered from the site's own hero so
+it cannot drift from the brand.
+
 **Never start a scroll reveal from a staggered `gsap.fromTo()`.** A stagger
 makes GSAP render the "from" state on the first target only; every other
 target keeps its natural value until its own start time arrives, then snaps
@@ -193,11 +202,11 @@ npm run audit      # 22 behaviour / accessibility checks
 npm run perf       # frame times + Web Vitals, incl. CPU-throttled phones
 ```
 
-`npm run audit` runs 26 checks covering the mobile drawer (touch target size, `aria-expanded`,
+`npm run audit` runs 33 checks covering the mobile drawer (touch target size, `aria-expanded`,
 scroll lock, Escape, anchor offset), reduced-motion, a JavaScript-disabled
 render, form validation and focus management, keyboard entry, and the manifesto's
-word-by-word sweep (that one exists because a staggered `fromTo` silently
-left the sentence fully lit — see below).
+word-by-word sweep, and the Open Graph tags (the last two exist because both
+failed silently in production — see below).
 
 Both scripts read `NEXERA_URL` (default `http://localhost:3000/`) and
 `CHROMIUM_PATH` if you need to point at a specific browser.

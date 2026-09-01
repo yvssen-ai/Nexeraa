@@ -26,7 +26,28 @@ const jetbrains = JetBrains_Mono({
   preload: false,
 });
 
-const SITE = "https://nexera.agency";
+/**
+ * Absolute base for canonical and Open Graph URLs.
+ *
+ * Scrapers resolve og:image against this, so a host that is not the live site
+ * means the preview image 404s and the platform falls back to scraping
+ * whatever image it can find in the page — which is how a project thumbnail
+ * ended up as the link preview. Vercel injects the project's stable
+ * production domain at build time; set NEXT_PUBLIC_SITE_URL to override once
+ * a custom domain is pointed at the site.
+ */
+const SITE =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
+const OG_IMAGE = {
+  url: "/og.jpg",
+  width: 1200,
+  height: 630,
+  alt: "NEXERA — modern digital agency",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -46,19 +67,23 @@ export const metadata: Metadata = {
     "NEXERA",
   ],
   authors: [{ name: "NEXERA" }],
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: SITE,
     siteName: "NEXERA",
+    locale: "en_US",
     title: "NEXERA — Modern Digital Agency",
     description:
       "Web development, e-commerce, AI automation, marketing and branding. Built to move.",
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "NEXERA — Modern Digital Agency",
     description:
       "Web development, e-commerce, AI automation, marketing and branding. Built to move.",
+    images: [OG_IMAGE.url],
   },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],

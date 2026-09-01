@@ -250,6 +250,50 @@ async function settled(page, selector) {
   await ctx.close();
 }
 
+/* ---------------- 7. link preview (Open Graph) ---------------- */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const page = await ctx.newPage();
+  await page.goto(URL, { waitUntil: "domcontentloaded" });
+
+  const meta = await page.evaluate(() => {
+    const get = (sel) => document.querySelector(sel)?.getAttribute("content") ?? null;
+    return {
+      image: get('meta[property="og:image"]'),
+      w: get('meta[property="og:image:width"]'),
+      h: get('meta[property="og:image:height"]'),
+      twitter: get('meta[name="twitter:image"]'),
+      url: get('meta[property="og:url"]'),
+      firstPageImage: document.querySelector("main img")?.getAttribute("src") ?? null,
+    };
+  });
+
+  // Without og:image the scrapers picked the first image in the page — which
+  // made a project thumbnail the link preview.
+  check(!!meta.image, "og: an image is declared", meta.image ?? "missing");
+  check(/^https?:\/\//.test(meta.image ?? ""), "og: image URL is absolute", meta.image ?? "");
+  check(meta.w === "1200" && meta.h === "630", "og: image is 1200x630", `${meta.w}x${meta.h}`);
+  check(!!meta.twitter, "og: twitter:image is set", meta.twitter ?? "missing");
+  check(
+    !!meta.image && !meta.image.includes("/work/"),
+    "og: preview is not a project thumbnail",
+    `page's first image is ${meta.firstPageImage}`,
+  );
+
+  // Fetch the path against the host under test: og:image is absolute against
+  // the production domain, which a sandbox or a local run may not be able to
+  // reach. The path is what we are really asserting exists.
+  const local = new globalThis.URL(new globalThis.URL(meta.image).pathname, URL).href;
+  const res = await page.request.get(local);
+  check(res.status() === 200, "og: image actually resolves", `${local} -> HTTP ${res.status()}`);
+  check(
+    (res.headers()["content-type"] ?? "").startsWith("image/"),
+    "og: image is served as an image",
+    res.headers()["content-type"] ?? "",
+  );
+  await ctx.close();
+}
+
 console.log("\nPASS (" + pass.length + ")");
 pass.forEach((p) => console.log("  ✓ " + p));
 console.log("\nFAIL (" + fail.length + ")");
