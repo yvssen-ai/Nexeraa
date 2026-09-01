@@ -217,11 +217,17 @@ export const STATS = [
 ];
 
 export const NAV_LINKS = [
-  { href: "#services", label: "Services" },
-  { href: "#process", label: "Process" },
-  { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
+  { href: "#work", label: "Work" },
+  { href: "#process", label: "Process" },
+  { href: "#services", label: "Services" },
   { href: "#contact", label: "Contact" },
 ];
 
-export const CONTACT_EMAIL = "hello@nexera.agency";
+export const CONTACT_EMAIL = "nexeraastudios@gmail.com";
+
+/** wa.me needs the number bare — no +, spaces or dashes. */
+export const WHATSAPP = {
+  display: "+20 122 850 7157",
+  href: "https://wa.me/201228507157",
+};

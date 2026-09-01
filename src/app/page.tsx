@@ -15,7 +15,7 @@ import Work from "@/components/sections/Work";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 
-import { SERVICES, CONTACT_EMAIL } from "@/lib/content";
+import { SERVICES, CONTACT_EMAIL, WHATSAPP } from "@/lib/content";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -24,6 +24,7 @@ const jsonLd = {
   description:
     "Modern digital agency for web development, e-commerce, AI automation, marketing and branding.",
   email: CONTACT_EMAIL,
+  telephone: WHATSAPP.display.replace(/\s/g, ""),
   url: "https://nexera.agency",
   areaServed: "Worldwide",
   makesOffer: SERVICES.map((s) => ({
@@ -52,9 +53,9 @@ export default function Page() {
           <Hero />
           <Ticker />
           <Manifesto />
-          <Services />
-          <Process />
           <Work />
+          <Process />
+          <Services />
           <Contact />
           <Footer />
         </main>

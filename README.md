@@ -120,8 +120,14 @@ visitor's mail client. To send enquiries to a real inbox, set a form endpoint
 NEXT_PUBLIC_FORM_ENDPOINT=https://formspree.io/f/xxxxxxx
 ```
 
-Change the address the mail fallback uses via `CONTACT_EMAIL` in
-`src/lib/content.ts`.
+`CONTACT_EMAIL` and `WHATSAPP` in `src/lib/content.ts` drive the mail
+fallback, the contact block, the footer and the page's JSON-LD. `WHATSAPP.href`
+is a `wa.me` link, so the number there must stay bare — no `+`, spaces or
+dashes — while `WHATSAPP.display` is the formatted version shown on screen.
+
+The section eyebrows (`[ 01 ]` … `[ 05 ]`) are written into each section
+component and are positional, so they have to be renumbered by hand if the
+order in `src/app/page.tsx` changes. `NAV_LINKS` is ordered to match the page.
 
 ---
 
@@ -189,9 +195,9 @@ Measured on this build — desktop 1440px, and phones with 4×/6× CPU throttlin
 
 | | LCP | CLS | scroll p50 | scroll p95 | frames > 50 ms |
 | --- | --- | --- | --- | --- | --- |
-| Desktop 1440 | 244 ms | 0 | 16.7 ms | 18.3 ms | 0 / 418 |
-| Phone, 4× CPU throttle | 416 ms | 0 | 16.8 ms | 21.6 ms | 0 / 417 |
-| Phone, 6× CPU throttle | 400 ms | 0 | 19.3 ms | 34.4 ms | 1 / 417 |
+| Desktop 1440 | 208 ms | 0 | 16.7 ms | 18.8 ms | 0 / 418 |
+| Phone, 4× CPU throttle | 304 ms | 0 | 16.7 ms | 19.4 ms | 0 / 417 |
+| Phone, 6× CPU throttle | 520 ms | 0 | 17.0 ms | 25.4 ms | 0 / 417 |
 
 A 16.7 ms median frame is a locked 60 fps, and it holds on a phone emulated
 at 6× slower than this machine. The remaining cost is load-time work — React
@@ -206,8 +212,8 @@ src/
   app/            layout, page composition, design tokens + global CSS
   components/
     brand/        Wordmark + Monogram vector marks
-    sections/     Hero, Ticker, Manifesto, Services, Process,
-                  Work, Contact, Footer
+    sections/     Hero, Ticker, Manifesto, Work, Process,
+                  Services, Contact, Footer
     ui/           Button, Magnetic, Marquee, icons
     *.tsx         Preloader, Nav, Cursor, ScrollProgress,
                   SmoothScroll, AnchorScroll, Reveals, SignalField

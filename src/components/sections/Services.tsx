@@ -203,7 +203,7 @@ export default function Services() {
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow" data-anim="fade-up">
-              [ 02 ] — What we do
+              [ 04 ] — What we do
             </p>
             <h2
               className="font-display mt-5 max-w-[16ch] text-[clamp(2.25rem,8vw,4.5rem)] font-semibold tracking-tight"

@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import { registerGsap, gsap, useGSAP } from "@/lib/gsap";
 import { Wordmark } from "@/components/brand/Logo";
-import { NAV_LINKS, SERVICES, CONTACT_EMAIL } from "@/lib/content";
+import { NAV_LINKS, SERVICES, CONTACT_EMAIL, WHATSAPP } from "@/lib/content";
+import { WhatsAppIcon } from "@/components/ui/ArrowIcon";
 
 registerGsap();
 
@@ -55,12 +56,23 @@ export default function Footer() {
             <p className="font-display text-ink max-w-[26ch] text-xl font-medium tracking-tight sm:text-2xl">
               One partner for the whole digital core.
             </p>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="text-ink-dim decoration-line-2 hover:text-ink hover:decoration-violet mt-5 inline-block text-[0.9375rem] underline underline-offset-4 transition-colors"
-            >
-              {CONTACT_EMAIL}
-            </a>
+            <div className="mt-5 flex flex-col items-start gap-2.5">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="text-ink-dim decoration-line-2 hover:text-ink hover:decoration-violet inline-block text-[0.9375rem] break-all underline underline-offset-4 transition-colors"
+              >
+                {CONTACT_EMAIL}
+              </a>
+              <a
+                href={WHATSAPP.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-ink-dim hover:text-ink inline-flex items-center gap-2 text-[0.9375rem] transition-colors"
+              >
+                <WhatsAppIcon className="size-4 text-[#25D366]" />
+                {WHATSAPP.display}
+              </a>
+            </div>
           </div>
 
           <nav aria-label="Footer">

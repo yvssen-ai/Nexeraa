@@ -2,10 +2,10 @@
 
 import { useRef, useState } from "react";
 import { registerGsap, gsap, useGSAP, SplitText } from "@/lib/gsap";
-import { SERVICES, CONTACT_EMAIL } from "@/lib/content";
+import { SERVICES, CONTACT_EMAIL, WHATSAPP } from "@/lib/content";
 import Magnetic from "@/components/ui/Magnetic";
 import Button from "@/components/ui/Button";
-import { ArrowUpRight } from "@/components/ui/ArrowIcon";
+import { ArrowUpRight, WhatsAppIcon } from "@/components/ui/ArrowIcon";
 
 registerGsap();
 
@@ -133,6 +133,19 @@ export default function Contact() {
             with a first opinion attached, free.
           </p>
 
+          {/* A form is a commitment; WhatsApp is a message. Offer both. */}
+          <a
+            href={WHATSAPP.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            data-cursor="Chat"
+            data-anim="fade-up"
+            className="border-line-2 text-ink mt-8 inline-flex min-h-[3rem] w-full items-center justify-center gap-2.5 rounded-full border px-6 text-[0.9375rem] font-medium transition-colors duration-300 hover:border-[#25D366]/60 hover:bg-[#25D366]/[0.08] sm:w-auto"
+          >
+            <WhatsAppIcon className="size-[1.05rem] text-[#25D366]" />
+            Chat on WhatsApp
+          </a>
+
           <dl className="mt-10 grid gap-6 sm:grid-cols-2" data-anim="fade-up">
             <div>
               <dt className="eyebrow">Email</dt>
@@ -140,9 +153,23 @@ export default function Contact() {
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
                   data-cursor="Copy"
-                  className="text-ink decoration-line-2 hover:decoration-violet text-[0.9375rem] underline underline-offset-4 transition-colors"
+                  className="text-ink decoration-line-2 hover:decoration-violet text-[0.9375rem] break-all underline underline-offset-4 transition-colors"
                 >
                   {CONTACT_EMAIL}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt className="eyebrow">WhatsApp</dt>
+              <dd className="mt-2">
+                <a
+                  href={WHATSAPP.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  data-cursor="Chat"
+                  className="text-ink decoration-line-2 hover:decoration-violet text-[0.9375rem] underline underline-offset-4 transition-colors"
+                >
+                  {WHATSAPP.display}
                 </a>
               </dd>
             </div>
