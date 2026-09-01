@@ -120,6 +120,9 @@ async function settled(page, selector) {
     };
   });
   check(!r.preloader, "reduced-motion: preloader removed");
+  const dimWords = await page.$$eval(".nx-manifesto-copy > *", (els) =>
+    els.filter((e) => parseFloat(getComputedStyle(e).opacity) < 0.9).length);
+  check(dimWords === 0, "reduced-motion: manifesto words are not left dimmed", `${dimWords} dim`);
   check(
     r.hiddenAnimCount === 0,
     "reduced-motion: no content left hidden",
@@ -213,6 +216,37 @@ async function settled(page, selector) {
     "keyboard: focus ring is visible",
     JSON.stringify(ring),
   );
+  await ctx.close();
+}
+
+/* ---------------- 6. manifesto word sweep ---------------- */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  await page.goto(URL, { waitUntil: "networkidle" });
+  await page.waitForTimeout(3600);
+
+  const geom = await page.evaluate(() => {
+    const c = document.querySelector(".nx-manifesto-copy");
+    const r = c.getBoundingClientRect();
+    return { top: Math.round(r.top + scrollY), h: Math.round(r.height), vh: innerHeight };
+  });
+  const start = geom.top - 0.88 * geom.vh;
+  const end = geom.top + geom.h - 0.48 * geom.vh;
+  const litAt = async (p) => {
+    await page.evaluate((y) => window.scrollTo(0, y), Math.round(start + (end - start) * p));
+    await page.waitForTimeout(1300);
+    return page.$$eval(".nx-manifesto-copy > *", (els) =>
+      els.filter((e) => parseFloat(getComputedStyle(e).opacity) > 0.95).length);
+  };
+  const total = await page.$$eval(".nx-manifesto-copy > *", (e) => e.length);
+  const at0 = await litAt(0);
+  const mid = await litAt(0.5);
+  const at1 = await litAt(1);
+  // A staggered fromTo used to leave all-but-one word already lit at p=0.
+  check(at0 === 0, "manifesto: every word starts dimmed", `${at0}/${total} lit at progress 0`);
+  check(mid > at0 && mid < total, "manifesto: sweep is partway at the midpoint", `${mid}/${total}`);
+  check(at1 === total, "manifesto: every word is lit by the end", `${at1}/${total}`);
   await ctx.close();
 }
 

@@ -163,6 +163,15 @@ invisible.
 inside a `gsap.matchMedia("(prefers-reduced-motion: no-preference)")` block,
 the smoother is not created at all, and the preloader is skipped.
 
+**Never start a scroll reveal from a staggered `gsap.fromTo()`.** A stagger
+makes GSAP render the "from" state on the first target only; every other
+target keeps its natural value until its own start time arrives, then snaps
+to the "from" value and animates. On the manifesto sentence that meant the
+whole paragraph sat fully lit before the sweep began, and each word popped
+as its turn came. Set the resting state with `gsap.set()` first, then `to()`
+it. `scripts/audit.mjs` asserts the sweep is empty at progress 0, partway at
+the midpoint and complete at the end, so it cannot regress quietly.
+
 **`ScrollTrigger.refresh()` is expensive and is called exactly once**, on the
 frame after web fonts settle (`SmoothScroll.tsx`). A refresh reverts and
 re-measures every pin; firing it from several places used to stack into a
@@ -184,9 +193,11 @@ npm run audit      # 22 behaviour / accessibility checks
 npm run perf       # frame times + Web Vitals, incl. CPU-throttled phones
 ```
 
-`npm run audit` runs 22 checks covering the mobile drawer (touch target size, `aria-expanded`,
+`npm run audit` runs 26 checks covering the mobile drawer (touch target size, `aria-expanded`,
 scroll lock, Escape, anchor offset), reduced-motion, a JavaScript-disabled
-render, form validation and focus management, and keyboard entry.
+render, form validation and focus management, keyboard entry, and the manifesto's
+word-by-word sweep (that one exists because a staggered `fromTo` silently
+left the sentence fully lit — see below).
 
 Both scripts read `NEXERA_URL` (default `http://localhost:3000/`) and
 `CHROMIUM_PATH` if you need to point at a specific browser.
@@ -195,9 +206,9 @@ Measured on this build — desktop 1440px, and phones with 4×/6× CPU throttlin
 
 | | LCP | CLS | scroll p50 | scroll p95 | frames > 50 ms |
 | --- | --- | --- | --- | --- | --- |
-| Desktop 1440 | 208 ms | 0 | 16.7 ms | 18.8 ms | 0 / 418 |
-| Phone, 4× CPU throttle | 304 ms | 0 | 16.7 ms | 19.4 ms | 0 / 417 |
-| Phone, 6× CPU throttle | 520 ms | 0 | 17.0 ms | 25.4 ms | 0 / 417 |
+| Desktop 1440 | 224 ms | 0 | 16.7 ms | 17.5 ms | 0 / 418 |
+| Phone, 4× CPU throttle | 360 ms | 0 | 16.7 ms | 19.1 ms | 0 / 418 |
+| Phone, 6× CPU throttle | 408 ms | 0 | 16.9 ms | 25.4 ms | 1 / 417 |
 
 A 16.7 ms median frame is a locked 60 fps, and it holds on a phone emulated
 at 6× slower than this machine. The remaining cost is load-time work — React

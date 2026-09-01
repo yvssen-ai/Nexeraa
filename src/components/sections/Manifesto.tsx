@@ -6,6 +6,9 @@ import { STATS } from "@/lib/content";
 
 registerGsap();
 
+/** Resting opacity of a word before the sweep reaches it. */
+const DIM = 0.16;
+
 const LINE =
   "We are a small senior team that builds the digital core of a business — the site, the store, the automations, the demand engine and the brand that ties them together. One partner, five disciplines, no hand-offs.";
 
@@ -17,27 +20,34 @@ export default function Manifesto() {
       const mm = gsap.matchMedia(root);
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        /* ---- statement: words brighten as the section scrolls past ---- */
+        /* ---- statement: words brighten as the section scrolls past ----
+           The dim state is set separately, not via fromTo. A *staggered*
+           fromTo only renders its "from" on the first target — the rest keep
+           their natural opacity until their own start time comes round, then
+           snap to dim and fade. That reads as flicker, and leaves the whole
+           sentence lit before the reveal has begun. */
         const copy = root.current!.querySelector<HTMLElement>(".nx-manifesto-copy")!;
         const split = SplitText.create(copy, {
           type: "words",
           aria: "auto",
-          onSplit: (self) =>
-            gsap.fromTo(
-              self.words,
-              { opacity: 0.14 },
-              {
-                opacity: 1,
-                ease: "none",
-                stagger: 0.5,
-                scrollTrigger: {
-                  trigger: copy,
-                  start: "top 78%",
-                  end: "bottom 58%",
-                  scrub: 0.4,
-                },
+          onSplit: (self) => {
+            gsap.set(self.words, { opacity: DIM });
+            return gsap.to(self.words, {
+              opacity: 1,
+              ease: "none",
+              duration: 0.6,
+              // `amount` spreads every word's start across a fixed span, so the
+              // sweep takes the same share of the scroll whatever the sentence
+              // length — a bare `each` would stretch with the word count.
+              stagger: { amount: 4 },
+              scrollTrigger: {
+                trigger: copy,
+                start: "top 88%",
+                end: "bottom 48%",
+                scrub: 0.4,
               },
-            ),
+            });
+          },
         });
 
         /* ---- counters ---- */
