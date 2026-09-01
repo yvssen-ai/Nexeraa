@@ -32,7 +32,6 @@ export default function Hero() {
         const chev = pick<SVGPathElement>(".nx-hero-chev");
         const shard = pick<SVGPathElement>(".nx-hero-shard");
         const eyebrow = pick(".nx-hero-eyebrow");
-        const sub = pick(".nx-hero-sub");
         const cta = pick(".nx-hero-cta");
         const cue = pick(".nx-hero-cue");
         const pillars = pick(".nx-hero-pillar");
@@ -40,7 +39,7 @@ export default function Hero() {
         /* ---------- entrance, held until the preloader hands over ---------- */
         gsap.set(letters, { yPercent: 118 });
         gsap.set(shard, { opacity: 0 });
-        gsap.set([...eyebrow, ...sub, ...cta, ...cue], { y: 26, opacity: 0 });
+        gsap.set([...eyebrow, ...cta, ...cue], { y: 26, opacity: 0 });
         gsap.set(pillars, { y: 14, opacity: 0 });
 
         let intro: gsap.core.Timeline | null = null;
@@ -52,10 +51,9 @@ export default function Hero() {
             .to(letters, { yPercent: 0, duration: 1.15, stagger: 0.06 }, 0.08)
             .from(chev, { drawSVG: 0, duration: 1.2 }, 0.4)
             .to(shard, { opacity: 1, duration: 0.7 }, 0.95)
-            .to(sub, { y: 0, opacity: 1, duration: 0.9 }, 0.72)
-            .to(pillars, { y: 0, opacity: 1, duration: 0.7, stagger: 0.06 }, 0.82)
-            .to(cta, { y: 0, opacity: 1, duration: 0.9 }, 0.95)
-            .to(cue, { y: 0, opacity: 1, duration: 0.8 }, 1.1);
+            .to(pillars, { y: 0, opacity: 1, duration: 0.7, stagger: 0.06 }, 0.72)
+            .to(cta, { y: 0, opacity: 1, duration: 0.9 }, 0.86)
+            .to(cue, { y: 0, opacity: 1, duration: 0.8 }, 1.0);
         };
 
         const off = onReady(play);
@@ -127,12 +125,7 @@ export default function Hero() {
           <Wordmark className="text-ink w-full" hooks="nx-hero" decorative />
         </h1>
 
-        <p className="nx-hero-sub text-ink-dim mt-4 max-w-[46ch] text-base text-balance sm:mt-6 sm:text-lg">
-          We design, build and automate the systems that grow modern brands — from the first
-          pixel to the last conversion.
-        </p>
-
-        <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-2 gap-y-2 sm:mt-9 sm:gap-x-3">
+        <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-2 gap-y-2 sm:mt-10 sm:gap-x-3">
           {PILLARS.map((p) => (
             <li
               key={p}
